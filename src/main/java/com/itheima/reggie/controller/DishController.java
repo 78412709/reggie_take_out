@@ -129,6 +129,20 @@ public class DishController {
         return R.success("修改菜品成功");
     }
 
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish) {
+
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(dish != null, Dish::getCategoryId, dish.getCategoryId());
+        queryWrapper.eq(dish != null, Dish::getStatus, 1);
+        queryWrapper.orderByAsc(Dish::getUpdateTime);
+
+        List<Dish> dishList = dishService.list(queryWrapper);
+
+        return R.success(dishList);
+    }
+
+
     /**
      * 删除菜品
      *

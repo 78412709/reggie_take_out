@@ -39,6 +39,8 @@ public class LoginCheckFilter implements Filter {
                 "/backend/**",
                 "/front/**",
                 "/common/**",
+                "/user/sendMsg",
+                "/user/login"
         };
 
 
@@ -61,10 +63,21 @@ public class LoginCheckFilter implements Filter {
 
             // 通过request对象拿到当前用户id，将用户id存到线程中，为最后统一变量赋值提供数据
             Long empId = (Long) request.getSession().getAttribute("employee");
-            BaseContext.setCurrentEmpId(empId);
+            BaseContext.setCurrentId(empId);
 
 
             filterChain.doFilter(request, response);
+            return;
+        }
+
+        //4-2、判断登录状态，如果已登录，则直接放行
+        if(request.getSession().getAttribute("user") != null){
+            log.info("用户已登录，用户id为：{}",request.getSession().getAttribute("user"));
+
+            Long userId = (Long) request.getSession().getAttribute("user");
+            BaseContext.setCurrentId(userId);
+
+            filterChain.doFilter(request,response);
             return;
         }
 

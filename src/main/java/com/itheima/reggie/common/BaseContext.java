@@ -10,7 +10,7 @@ public class BaseContext {
      * 设置值
      * @param id
      */
-    public static void setCurrentEmpId(Long id){
+    public static void setCurrentId(Long id){
         threadLocal.set(id);
     }
 
@@ -18,7 +18,7 @@ public class BaseContext {
      * 获取值
      * @return
      */
-    public static Long getCurrentEmpId(){
+    public static Long getCurrentId(){
         return threadLocal.get();
     }
 }
